@@ -1,0 +1,3 @@
+set head off
+set echo off
+SELECT SUBSTR(BANNER,1,INSTR(BANNER,'-',1)-1) AS BANNER FROM V$VERSION;

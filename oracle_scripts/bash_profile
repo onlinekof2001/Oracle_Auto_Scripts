@@ -1,0 +1,7 @@
+export ORACLE_HOME=/usr/lib/oracle/12.1/client64
+export TNS_ADMIN=$ORACLE_HOME
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib
+export ORACLE_PATH=/RUNDECK/rundeck_scripts/ORACLE_DB
+PATH=$PATH:$HOME/bin:$ORACLE_HOME:/usr/bin
+
+export PATH

@@ -1,0 +1,1345 @@
+define username=&1
+define pad=60
+set serveroutput on
+
+set head off
+
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IX01_RFID_IAM" ON "&username."."IAM_BASIC_DATA" ("TIR_NUM_TIERS_TIR","ELG_NUM_ELT_GESTION_ELG", "TBD_ID_TBD", "IAM_VALUE")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" PARALLEL 8' ;
+  execute immediate st;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+ WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+  
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IX01_RFID_FLAT" ON "&username."."FLAT_STRUCTURE" ("ORG_NUM_ORGANISATION_ORG", "NIV_NUM_NIVEAU_FAM", "ELN_NUM_ELT_NIVEAU_FAM",
+  "ELG_NUM_ELT_GESTION_MOD", "ELG_NUM_ELT_GESTION_ELG")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" PARALLEL 8 ';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+  WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IX01_RFID_FILIERE_TIERS" ON "&username."."FILIERE_TIERS" ("TIR_NUM_TIERS_MAG", "TYL_TYPE_LIEN_TIERS_TYL", "FLT_NUM_ORDRE")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+      PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+      BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" PARALLEL 8 ';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+ 
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_CODIFICATION_FOURNISSEUR" ON "&username."."CODIFICATION_FOURNISSEUR" ("COF_CODE_EXTERNE")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX"  parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+ 
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_CODIFICATION_TIERS" ON "&username."."CODIFICATION_TIERS" ("COT_CODE_INTERNE", "COT_CODE_FOURNISSEUR")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+ 
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_DECLINAISON_ARTICLE" ON "&username."."DECLINAISON_ARTICLE" ("VAG_VAL_GRILLE_VAG", "TGR_NUM_TYPE_GRILLE_VAG", "TTI_NUM_TYPE_TIERS_VAG", "TIR_NUM_TIERS_VAG", "TIR_SOUS_NUM_TIERS_VAG")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+ 
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_ELEMENT_GESTION" ON "&username."."ELEMENT_GESTION" ("ELG_NUM_ELT_GESTION_MOD", "ELG_MOD_OU_ART", "ELG_NUM_ORDRE_ARTICLE")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+ 
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_ELT_GESTION_ECHANGE" ON "&username."."ELT_GESTION_ECHANGE" ("TTI_NUM_TYPE_TIERS_ACH", "TIR_NUM_TIERS_ACH", "TIR_SOUS_NUM_TIERS_ACH", "TTI_NUM_TYPE_TIERS_VEND", "TIR_NUM_TIERS_VEND", "TIR_SOUS_NUM_TIERS_VEND")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+ 
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_ELT_GESTION_LOG" ON "&username."."ELT_GESTION_LOG" ("COT_CODE_INTERNE", "CLASSE_LOG")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+ 
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_ELT_NIVEAU" ON "&username."."ELT_NIVEAU" ("ORG_NUM_ORGANISATION_SUP", "NIV_NUM_NIVEAU_SUP", "ELN_NUM_ELT_NIVEAU_SUP")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_FILIERE_TIERS" ON "&username."."FILIERE_TIERS" ("TTI_NUM_TYPE_TIERS_CHN", "TIR_NUM_TIERS_CHN", "TIR_SOUS_NUM_TIERS_CHN")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_FLAT_STRUCTURE" ON "&username."."FLAT_STRUCTURE" ("ELN_NUM_ELT_NIVEAU_FAM")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX01_IAM_BASIC_DATA" ON "&username."."IAM_BASIC_DATA" ("IAM_VALUE", "TBD_ID_TBD")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX01_LIEN_TIERS" ON "&username."."LIEN_TIERS" ("TTI_NUM_TYPE_TIERS_FILS", "TIR_NUM_TIERS_FILS", "TIR_SOUS_NUM_TIERS_FILS")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX01_LINKED_IAM" ON "&username."."LINKED_IAM" ("LKI_NUM_ELT_GESTION_ELG", "LKI_TTI_NUM_TYPE_TIERS_TIR", "LKI_TIR_NUM_TIERS_TIR", "LKI_TIR_SOUS_NUM_TIERS_TIR", "LKI_START_DATE", "LKI_END_DATE")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX01_PRIX_UNIT_CESSION_MAG" ON "&username."."PRIX_UNIT_CESSION_MAG" ("TPR_NUM_TYPE_PRIX_TPR", "ELG_NUM_ELT_GESTION_UMA", "TIR_NUM_TIERS_VEND", "UMA_CODE_VARIANTE_UMA", "TTI_NUM_TYPE_TIERS_VEND", "TIR_SOUS_NUM_TIERS_VEND", "PRI_DATE_DEBUT")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX01_PRIX_UNIT_VENTE" ON "&username."."PRIX_UNIT_VENTE" ("PRI_DATE_DEBUT")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX01_RATTACHEMENT_MODELE" ON "&username."."RATTACHEMENT_MODELE" ("ORG_NUM_ORGANISATION_ELN", "NIV_NUM_NIVEAU_ELN", "ELN_NUM_ELT_NIVEAU_ELN")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX01_TAXE_ELT_GESTION" ON "&username."."TAXE_ELT_GESTION" ("TTA_NUM_TYPE_TAXE_NTA", "NTA_NUM_TAXE_NTA")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX01_TREE_NODE" ON "&username."."TREE_NODE" ("TNO_FATHER_ORGANIZATION_ID", "TNO_FATHER_LEVEL_ID", "TNO_FATHER_NODE_ID")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX02_CODIFICATION_FOURNISSEUR" ON "&username."."CODIFICATION_FOURNISSEUR" ("COF_CODE_FOURNISSEUR", "TTI_NUM_TYPE_TIERS_FOUR", "TIR_NUM_TIERS_FOUR", "TIR_SOUS_NUM_TIERS_FOUR")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX02_ELEMENT_GESTION" ON "&username."."ELEMENT_GESTION" ("ELG_NUM_ELT_GESTION", "ELG_NUM_ELT_GESTION_MOD", "ELG_MOD_OU_ART")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX02_FLAT_STRUCTURE" ON "&username."."FLAT_STRUCTURE" ("ELG_NUM_ELT_GESTION_MOD")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX03_FLAT_STRUCTURE" ON "&username."."FLAT_STRUCTURE" ("FST_MODELE_R3")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+  dbms_output.put_line(substr(st,&pad.)||'...');
+  exception
+  when others then null;
+end;
+/
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX04_FLAT_STRUCTURE" ON "&username."."FLAT_STRUCTURE" ("FST_ARTICLE_R3")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+  dbms_output.put_line(substr(st,&pad.)||'...');
+  exception
+  when others then null;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX02_IAM_BASIC_DATA" ON "&username."."IAM_BASIC_DATA" ("TBD_ID_TBD")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX02_LIBELLE_TRADUCTION" ON "&username."."LIBELLE_TRADUCTION" ("TLB_TYP_LIBELLE_LIB", "LIT_LIBELLE_LONG")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX02_LINKED_IAM" ON "&username."."LINKED_IAM" ("LKI_NUM_ELT_GESTION_LINKED", "LKI_TTI_NUM_TYPE_TIERS_TIR", "LKI_TIR_NUM_TIERS_TIR", "LKI_TIR_SOUS_NUM_TIERS_TIR", "LKI_START_DATE", "LKI_END_DATE")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX02_PRIX_UNIT_HISTO" ON "&username."."PRIX_UNIT_HISTO" ("PRI_DATE_FIN")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX02_PRIX_UNIT_VENTE" ON "&username."."PRIX_UNIT_VENTE" ("PRI_DATE_FIN")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX02_RATTACHEMENT_MODELE" ON "&username."."RATTACHEMENT_MODELE" ("ELN_NUM_ELT_NIVEAU_ELN", "ORG_NUM_ORGANISATION_ELN", "NIV_NUM_NIVEAU_ELN", "ELG_NUM_ELT_GESTION_ELG")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin
+  st:='CREATE INDEX "&username."."IDX03_CODIFICATION_FOURNISSEUR" ON "&username."."CODIFICATION_FOURNISSEUR" ("ELG_NUM_ELT_GESTION_ELG", "COF_FLAG_REFERENCEUR", "TIR_SOUS_NUM_TIERS_FOUR", "TIR_NUM_TIERS_FOUR", "TTI_NUM_TYPE_TIERS_FOUR", "COF_CODE_FOURNISSEUR")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_COST_DISCOUNT" ON "&username."."COST_DISCOUNT" ("ELG_NUM_ELT_GESTION_UMA", "UMA_CODE_VARIANTE_UMA", "TTI_NUM_TYPE_TIERS_VEND", "TIR_NUM_TIERS_VEND", "TIR_SOUS_NUM_TIERS_VEND", "TTI_NUM_TYPE_TIERS_ACH", "TIR_NUM_TIERS_ACH", "TIR_SOUS_NUM_TIERS_ACH")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_ELEMENT_GESTION" ON "&username."."ELEMENT_GESTION" ("ELG_NUM_ELT_GESTION", "ELG_MOD_OU_ART", "ELG_NUM_ORDRE_ARTICLE")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_FILIERE_TIERS" ON "&username."."FILIERE_TIERS" ("TTI_NUM_TYPE_TIERS_MAG", "TIR_NUM_TIERS_MAG", "TIR_SOUS_NUM_TIERS_MAG", "TYL_TYPE_LIEN_TIERS_TYL")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_HISTORIQUE_DEVISE" ON "&username."."HISTORIQUE_DEVISE" ("TCD_TYPE_COURS_DEVISE_TCD")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_IAM_BASIC_DATA" ON "&username."."IAM_BASIC_DATA" ("TTI_NUM_TYPE_TIERS_TIR", "TIR_NUM_TIERS_TIR", "TIR_SOUS_NUM_TIERS_TIR")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_LIBELLE_TRADUCTION" ON "&username."."LIBELLE_TRADUCTION" ("LAN_CODE_LANGUE_LAN", "TLB_TYP_LIBELLE_LIB", "LIT_LIBELLE_LONG")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_PRIX_UNIT_CESSION_MAG" ON "&username."."PRIX_UNIT_CESSION_MAG" ("ELG_NUM_ELT_GESTION_UMA", "UMA_CODE_VARIANTE_UMA", "TTI_NUM_TYPE_TIERS_VEND", "TIR_NUM_TIERS_VEND", "TIR_SOUS_NUM_TIERS_VEND", "TTI_NUM_TYPE_TIERS_ACH", "TIR_NUM_TIERS_ACH", "TIR_SOUS_NUM_TIERS_ACH")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_PRIX_UNIT_HISTO" ON "&username."."PRIX_UNIT_HISTO" ("ELG_NUM_ELT_GESTION_UMA", "UMA_CODE_VARIANTE_UMA", "TTI_NUM_TYPE_TIERS_VEND", "TIR_NUM_TIERS_VEND", "TIR_SOUS_NUM_TIERS_VEND", "TTI_NUM_TYPE_TIERS_ACH", "TIR_NUM_TIERS_ACH", "TIR_SOUS_NUM_TIERS_ACH")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_PRIX_UNIT_VENTE" ON "&username."."PRIX_UNIT_VENTE" ("ELG_NUM_ELT_GESTION_UMA", "UMA_CODE_VARIANTE_UMA", "TTI_NUM_TYPE_TIERS_VEND", "TIR_NUM_TIERS_VEND", "TIR_SOUS_NUM_TIERS_VEND", "TTI_NUM_TYPE_TIERS_ACH", "TIR_NUM_TIERS_ACH", "TIR_SOUS_NUM_TIERS_ACH")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_RATTACHEMENT_MODELE" ON "&username."."RATTACHEMENT_MODELE" ("ORG_NUM_ORGANISATION_ELN", "ELN_NUM_ELT_NIVEAU_ELN", "NIV_NUM_NIVEAU_ELN", "ELG_NUM_ELT_GESTION_ELG")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_DATA" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX03_VAL_GRILLE" ON "&username."."VAL_GRILLE" ("TGR_NUM_TYPE_GRILLE_GRL", "TTI_NUM_TYPE_TIERS_GRL", "TIR_NUM_TIERS_GRL", "TIR_SOUS_NUM_TIERS_GRL")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX04_CODIFICATION_FOURNISSEUR" ON "&username."."CODIFICATION_FOURNISSEUR" ("TIR_NUM_TIERS_FOUR", "TIR_SOUS_NUM_TIERS_FOUR")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX04_LIBELLE_TRADUCTION" ON "&username."."LIBELLE_TRADUCTION" ("LIB_NUM_LIBELLE_LIB", "LAN_CODE_LANGUE_LAN", "TLB_TYP_LIBELLE_LIB", "LIT_LIBELLE_COURT", "LIT_LIBELLE_LONG")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX04_PRIX_UNIT_CESSION_MAG" ON "&username."."PRIX_UNIT_CESSION_MAG" ("TPR_NUM_TYPE_PRIX_TPR", "ELG_NUM_ELT_GESTION_UMA", "TIR_NUM_TIERS_VEND", "UMA_CODE_VARIANTE_UMA", "TTI_NUM_TYPE_TIERS_VEND", "TIR_SOUS_NUM_TIERS_VEND", "PRI_DATE_DEBUT", "PRI_DATE_FIN")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX04_PRIX_UNIT_VENTE" ON "&username."."PRIX_UNIT_VENTE" ("TIR_NUM_TIERS_ACH", "TPR_NUM_TYPE_PRIX_TPR", "TTI_NUM_TYPE_TIERS_ACH", "TIR_SOUS_NUM_TIERS_ACH", "PRI_DATE_DEBUT")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX06_ELT_GESTION_ECHANGE" ON "&username."."ELT_GESTION_ECHANGE" ("TTI_NUM_TYPE_TIERS_ACH", "TIR_NUM_TIERS_ACH", "TIR_SOUS_NUM_TIERS_ACH", "ETA_NUM_ETAPE_ETA", "ELG_NUM_ELT_GESTION_ELG", "EGE_TAUX_REAPPRO", "TTI_NUM_TYPE_TIERS_VEND")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IDX_RFID_FLAT_STRUCTURE" ON "&username."."FLAT_STRUCTURE" ("ORG_NUM_ORGANISATION_ORG", "ELN_NUM_ELT_NIVEAU_FAM", "NIV_NUM_NIVEAU_FAM", "ELG_NUM_ELT_GESTION_ELG", "ELG_NUM_ELT_GESTION_MOD")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."IX_RFID_FILIERE_TIERS" ON "&username."."FILIERE_TIERS" ("TIR_NUM_TIERS_MAG", "TYL_TYPE_LIEN_TIERS_TYL")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1 MAXSIZE UNLIMITED
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare
+st long;
+begin 
+  st:='CREATE INDEX "&username."."LIBELLE_MODELE_IDX01" ON "&username."."LIBELLE_MODELE" ("LIB_NUM_LIBELLE_LIB", "TLB_TYP_LIBELLE_LIB", "ELG_NUM_ELT_GESTION_ELG")
+  PCTFREE 10 INITRANS 2 MAXTRANS 255 COMPUTE STATISTICS
+  STORAGE(INITIAL 65536 NEXT 1048576 MINEXTENTS 1 MAXEXTENTS 2147483645
+  PCTINCREASE 0 FREELISTS 1 FREELIST GROUPS 1
+  BUFFER_POOL DEFAULT FLASH_CACHE DEFAULT CELL_FLASH_CACHE DEFAULT)
+  TABLESPACE "&username._SNAP_INDEX" parallel 8';
+  execute immediate st;
+ dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'RATTACHEMENT_MODELE',EXTENSION=>'("ELG_NUM_ELT_GESTION_ELG","ELN_NUM_ELT_NIVEAU_ELN")') into st from dual;
+ dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'CODIFICATION_LIB_ELT_NIVEAU',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'DEVISE_TABLE',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'ELT_NIVEAU',EXTENSION=>'("ORG_NUM_ORGANISATION_NIV","NIV_NUM_NIVEAU_NIV")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'GMT_TIERS',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'JM_IAM_BASIC_DATA',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'LANGUE_TIERS',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'RANKING_EN',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'TIERS_ORGANISATION',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'LIEN_TIERS',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'BLOCAGE_ELT_GESTION_ECHANGE',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'BLOCAGE_SUIVI',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'CHOIX_GAMME_NIVEAU_OUVERT',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'DEPENDANCE_FAMILLE',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'ELEMENT_GESTION',EXTENSION=>'("ELG_NUM_ELT_GESTION","ELG_NUM_ELT_GESTION_MOD")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'ELT_NIVEAU',EXTENSION=>'("ORG_NUM_ORGANISATION_SUP","NIV_NUM_NIVEAU_SUP")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+ declare 
+ st long;
+ begin  
+select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'ELT_NIVEAU',EXTENSION=>'("TLB_TYP_LIBELLE_LIB","LIB_NUM_LIBELLE_LIB")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'ENTREPOT_REF',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'EVT_COMMERCIAL_LVL',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'EVT_COMMERCIAL',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'FILIERE_TIERS',EXTENSION=>'("TIR_NUM_TIERS_MAG","TIR_SOUS_NUM_TIERS_MAG")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'GRILLE',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'HISTORIQUE_DEVISE',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'IAM_BASIC_DATA',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'JM_BLOCAGE_SUIVI',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'JM_RANKING_EN',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'JM_TAXE_ELT_GESTION',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'MAGASIN_REF',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'MARQUE_FOURNISSEUR',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'NOMENCLATURE',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'PARAMETRES_DETAIL',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'PARAMETRES_MASTERDATAS',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'TAXE_ELT_GESTION',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+declare 
+ st long;
+ begin  
+ select DBMS_STATS.CREATE_EXTENDED_STATS(OWNNAME =>'&username.',TABNAME=>'TAXE_TAUX',EXTENSION=>'("TIR_NUM_TIERS_TIR","TIR_SOUS_NUM_TIERS_TIR")') into st from dual;
+  dbms_output.put_line(substr(st,1,&pad.)||'...');
+ exception
+WHEN OTHERS THEN
+ if sqlcode not in (-955,-942,-20000) then
+   dbms_output.put_line('Exception SQLCODE=' || SQLCODE || '  SQLERRM=' || SQLERRM);
+  end if;
+end;
+/
+
+
+prompt calculating stats with : exec dbms_stats.gather_schema_stats(''&username.'')
+exec dbms_stats.gather_schema_stats('&username.');
+
+
+
+
